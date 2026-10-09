@@ -4,6 +4,7 @@ import { View, Text, TextInput, Button, TouchableOpacity, FlatList, Modal, Style
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useWorkoutByDate } from '../../src/hooks/useWorkoutByDate';
 import { WorkoutPayload } from '../../src/hooks/useSaveWorkout';
+import { formatWorkoutDate } from '../../src/utils/date';
 import { db } from '../../src/db/database';
 import { exercises } from '../../src/db/schema';
 
@@ -75,7 +76,7 @@ export default function EditWorkoutScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Edit Workout: {date}</Text>
+            <Text style={styles.header}>Edit Workout: {formatWorkoutDate(date)} </Text>
             
             <TextInput 
                 style={styles.input}
