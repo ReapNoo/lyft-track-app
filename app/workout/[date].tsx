@@ -20,7 +20,7 @@ export default function WorkoutDayScreen() {
     if (!workoutData) {
         return (
             <View style={styles.centerContainer}>
-                <Text style={styles.emptyText}>No workout logged for {date}.</Text>
+                <Text style={styles.emptyText}>No workout logged.</Text>
                 <Button 
                     title="Start Workout" 
                     color="#10b981"
@@ -34,7 +34,7 @@ export default function WorkoutDayScreen() {
     // STATE 3: Completed Day -> Show read-only summary
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>{workoutData.name || 'Workout'} - {date}</Text>
+            <Text style={styles.header}>{workoutData.name || 'Workout'}</Text>
             
             <FlatList 
                 data={workoutData.sets}

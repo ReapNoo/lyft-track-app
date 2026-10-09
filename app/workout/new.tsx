@@ -5,6 +5,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useSaveWorkout, WorkoutPayload } from '../../src/hooks/useSaveWorkout';
 import { db } from '../../src/db/database';
 import { exercises } from '../../src/db/schema';
+import { formatWorkoutDate } from '../../src/utils/date';
 
 type RegisteredExercise = { id: number; name: string };
 
@@ -60,7 +61,7 @@ export default function NewWorkoutScreen() {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>New Workout: {date}</Text>
+            <Text style={styles.header}>New Workout: {formatWorkoutDate(date)} </Text>
             
             <TextInput 
                 style={styles.input}

@@ -40,7 +40,7 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#ffffff', paddingTop: 50 },
+    container: { flex: 1, backgroundColor: '#ffffff', paddingTop: 10 },
     centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' },
     loadingText: { marginTop: 10, fontSize: 16, color: '#666' },
     overviewContainer: { padding: 20, marginTop: 20 },
