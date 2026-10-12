@@ -1,8 +1,9 @@
 // app/index.tsx
-import { View, Text, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useRouter } from 'expo-router';
 import { useWorkoutDates } from '../src/hooks/useWorkoutDates';
+import ExercisesScreen from './exercise';
 
 export default function HomeScreen() {
     const router = useRouter();
@@ -35,6 +36,10 @@ export default function HomeScreen() {
                 <Text style={styles.overviewTitle}>Overview</Text>
                 <Text style={styles.overviewStat}>Days trained: {Object.keys(markedDates).length}</Text>
             </View>
+
+            <Button
+                title="go to exercise list" onPress={() => router.push("/exercise")}
+            />
         </View>
     );
 }
