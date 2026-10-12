@@ -122,7 +122,7 @@ export default function NewWorkoutScreen() {
                             <TextInput 
                                 style={styles.weightInput}
                                 keyboardType="numeric"
-                                placeholder="e.g., 60.5"
+                                placeholder="60.5"
                                 value={weight}
                                 onChangeText={setWeight}
                             />
