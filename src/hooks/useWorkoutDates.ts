@@ -6,7 +6,7 @@ import { workouts } from "../db/schema";
 
 // Defines the exact dictionary structure the calendar requires
 type MarkedDates = {
-  [date: string]: { marked: boolean; dotColor?: string };
+  [date: string]: { marked: boolean; dotColor?: string, selectedColor?: string };
 };
 
 export function useWorkoutDates() {
@@ -25,7 +25,7 @@ export function useWorkoutDates() {
           // 2. Transform the array into the dictionary object React Native Calendar needs
           const formattedDates: MarkedDates = {};
           result.forEach((row) => {
-            formattedDates[row.date] = { marked: true, dotColor: "#4f46e5" };
+            formattedDates[row.date] = { marked: true, dotColor: '#6366f1', selectedColor: '#6366f1' };
           });
 
           // 3. Update state
