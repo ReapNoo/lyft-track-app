@@ -2,7 +2,6 @@
 import { View, Text, Button, FlatList, StyleSheet, ActivityIndicator } from 'react-native';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useWorkoutByDate } from '../../src/hooks/useWorkoutByDate';
-import { debouncePress } from '../../src/utils/debounce';
 
 export default function WorkoutDayScreen() {
     const { date } = useLocalSearchParams<{ date: string }>();
@@ -17,25 +16,22 @@ export default function WorkoutDayScreen() {
         );
     }
 
-    // STATE 2: Empty Day -> Show "Start Workout" button
     if (!workoutData) {
         return (
             <View style={styles.centerContainer}>
-                <Text style={styles.emptyText}>No workout logged.</Text>
+                <Text style={styles.emptyText}>No workout logged for {date}.</Text>
                 <Button 
                     title="Start Workout" 
                     color="#10b981"
-                    // Pass the date through the URL so new.tsx knows what day it is
-                    onPress={debouncePress(() => router.push(`/workout/new?date=${date}`))} 
+                    onPress={() => router.push(`/workout/new?date=${date}`)} 
                 />
             </View>
         );
     }
 
-    // STATE 3: Completed Day -> Show read-only summary
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>{workoutData.name || 'Workout'}</Text>
+            <Text style={styles.header}>{workoutData.routine.name}</Text>
             
             <FlatList 
                 data={workoutData.sets}
@@ -52,7 +48,7 @@ export default function WorkoutDayScreen() {
                 <Button 
                     title="Edit Workout" 
                     color="#6366f1"
-                    onPress={debouncePress(() => router.push(`/workout/edit?date=${date}`))} 
+                    onPress={() => router.push(`/workout/edit?date=${date}`)} 
                 />
             </View>
         </View>

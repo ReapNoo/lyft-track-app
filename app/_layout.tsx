@@ -36,9 +36,10 @@ export default function RootLayout() {
             };
           }}
         />
-        <Stack.Screen name="workout/new" options={{ title: "New" }} />
-        <Stack.Screen name="workout/edit" options={{ title: "Edit" }} />
+        <Stack.Screen name="workout/new" options={{ title: "New Workout" }} />
+        <Stack.Screen name="workout/edit" options={{ title: "Edit Workout" }} />
         <Stack.Screen name="exercise" options={{ title: "Exercises" }} />
+        <Stack.Screen name="routine" options={{ title: "Workouts" }} />
       </Stack>
     </View>
   );
