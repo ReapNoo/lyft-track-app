@@ -59,11 +59,19 @@ export default function HomeScreen() {
                 </Text>
             </View>
 
-            <View style={{ padding: 20 }}>
+            <View style={{ paddingLeft: 20, paddingRight: 20, paddingTop: 20 }}>
                 <Button 
                     title="Go to exercise list" 
                     color="#6366f1" 
                     onPress={debouncePress(() => router.push("/exercise"))}
+                />
+            </View>
+
+            <View style={{ padding: 20 }}>
+                <Button 
+                    title="Go to workout list" 
+                    color="#6366f1" 
+                    onPress={debouncePress(() => router.push("/routine"))}
                 />
             </View>
         </View>

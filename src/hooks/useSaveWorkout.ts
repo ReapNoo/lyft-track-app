@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { db } from '../db/database';
 import { workouts, sets } from '../db/schema';
 
-// This defines the shape of the data the UI will hand to our save function
 export type WorkoutPayload = {
     date: string;
-    name: string;
+    routineId: number;
     loggedSets: { exerciseId: number; reps: number; weight: number }[];
 };
 
@@ -16,13 +15,11 @@ export function useSaveWorkout() {
     async function saveWorkout(payload: WorkoutPayload) {
         setIsSaving(true);
         try {
-            // We use a transaction to guarantee data integrity
             await db.transaction(async (tx) => {
-                
-                // 1. Insert the parent workout and get its newly generated ID
+                // 1. Insert the parent workout with the selected routineId
                 const [newWorkout] = await tx.insert(workouts).values({
                     date: payload.date,
-                    name: payload.name,
+                    routineId: payload.routineId,
                 }).returning({ insertedId: workouts.id });
 
                 // 2. Attach that new workout ID to every set, then insert them
@@ -33,15 +30,15 @@ export function useSaveWorkout() {
                         reps: set.reps,
                         weight: set.weight,
                     }));
-                    
+
                     await tx.insert(sets).values(setsToInsert);
                 }
             });
-            
-            return true; // Tells the screen it is safe to route back home
+
+            return true;
         } catch (error) {
             console.error("Failed to save workout:", error);
-            return false; // Tells the screen to show an error
+            return false;
         } finally {
             setIsSaving(false);
         }
