@@ -46,7 +46,7 @@ export default function ExercisesScreen() {
     if (isLoading) {
         return (
             <View style={styles.centerContainer}>
-                <ActivityIndicator size="large" color="#4f46e5" />
+                <ActivityIndicator size="large" color="#6366f1" />
             </View>
         );
     }
@@ -79,7 +79,8 @@ export default function ExercisesScreen() {
 
                     <TextInput
                         style={styles.input}
-                        placeholder="e.g., Incline Dumbbell Press"
+                        placeholder="Incline Dumbbell Press"
+                        placeholderTextColor="#9CA3AF"
                         value={inputText}
                         onChangeText={setInputText}
                         autoCapitalize="words" // Automatically capitalizes each word for cleaner data
@@ -97,18 +98,34 @@ export default function ExercisesScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, padding: 20, backgroundColor: '#fff' },
-    centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' },
-    header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20 },
+    container: { flex: 1, padding: 20, backgroundColor: '#1C1C1E' },
+    centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#1C1C1E' },
+    header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, color: '#FFFFFF' },
     listContainer: { marginTop: 20, paddingBottom: 40 },
-    exerciseRow: { flexDirection: 'row', justifyContent: 'space-between', padding: 15, backgroundColor: '#f3f4f6', marginBottom: 10, borderRadius: 8 },
-    exerciseText: { fontSize: 18, fontWeight: '500' },
-    editText: { fontSize: 16, color: '#4f46e5' },
-    emptyText: { textAlign: 'center', marginTop: 40, color: '#666', fontSize: 16 },
+    exerciseRow: { 
+        flexDirection: 'row', 
+        justifyContent: 'space-between', 
+        padding: 15, 
+        backgroundColor: '#2C2C2E', 
+        marginBottom: 10, 
+        borderRadius: 8 
+    },
+    exerciseText: { fontSize: 18, fontWeight: '500', color: '#FFFFFF' },
+    editText: { fontSize: 16, color: '#6366f1' }, // Matches the purple accent
+    emptyText: { textAlign: 'center', marginTop: 40, color: '#9CA3AF', fontSize: 16 },
     
     // Modal Styles
-    modalContainer: { flex: 1, padding: 30, backgroundColor: '#fff', paddingTop: 50 },
-    modalHeader: { fontSize: 24, fontWeight: 'bold', marginBottom: 30, textAlign: 'center' },
-    input: { borderWidth: 1, borderColor: '#ccc', padding: 15, borderRadius: 8, fontSize: 18, marginBottom: 30 },
+    modalContainer: { flex: 1, padding: 30, backgroundColor: '#1C1C1E', paddingTop: 50 },
+    modalHeader: { fontSize: 24, fontWeight: 'bold', marginBottom: 30, textAlign: 'center', color: '#FFFFFF' },
+    input: { 
+        borderWidth: 1, 
+        borderColor: '#374151', 
+        padding: 15, 
+        borderRadius: 8, 
+        fontSize: 18, 
+        marginBottom: 30, 
+        color: '#FFFFFF',
+        backgroundColor: '#2C2C2E'
+    },
     buttonSpacing: { marginTop: 10 }
 });

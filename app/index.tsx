@@ -1,9 +1,8 @@
-// app/index.tsx
 import { View, Text, StyleSheet, ActivityIndicator, Button } from 'react-native';
 import { Calendar } from 'react-native-calendars';
 import { useRouter } from 'expo-router';
 import { useWorkoutDates } from '../src/hooks/useWorkoutDates';
-import ExercisesScreen from './exercise';
+import { debouncePress } from '../src/utils/debounce';
 
 export default function HomeScreen() {
     const router = useRouter();
@@ -12,8 +11,7 @@ export default function HomeScreen() {
     if (isLoading) {
         return (
             <View style={styles.centerContainer}>
-                <ActivityIndicator size="large" color="#4f46e5" />
-                <Text style={styles.loadingText}>Loading calendar...</Text>
+                <ActivityIndicator size="large" color="#6366f1" />
             </View>
         );
     }
@@ -22,33 +20,83 @@ export default function HomeScreen() {
         <View style={styles.container}>
             <Calendar
                 markedDates={markedDates}
+                hideExtraDays={true} // Removes the trailing days from adjacent months
                 theme={{
-                    todayTextColor: '#4f46e5',
-                    selectedDayBackgroundColor: '#4f46e5',
-                    dotColor: '#4f46e5',
+                    // Backgrounds matching the sleek dark theme
+                    calendarBackground: '#1C1C1E',
+                    
+                    // Typography & Day Colors
+                    dayTextColor: '#FFFFFF',
+                    monthTextColor: '#FFFFFF',
+                    textSectionTitleColor: '#6B7280', // Grayed-out "M T W T F S S"
+                    textDisabledColor: '#374151', // Past/disabled days
+                    
+                    // Purplish Highlights
+                    todayTextColor: '#6366f1',
+                    selectedDayBackgroundColor: '#6366f1',
+                    selectedDayTextColor: '#FFFFFF',
+                    
+                    // Accents
+                    arrowColor: '#FFFFFF',
+                    dotColor: '#6366f1', // Global fallback dot color
+                    
+                    // Font Styling
+                    textDayFontWeight: '500',
+                    textMonthFontWeight: 'bold',
+                    textDayHeaderFontWeight: '600',
+                    textDayFontSize: 16,
+                    textMonthFontSize: 20,
                 }}
-                onDayPress={(day) => {
+                onDayPress={debouncePress((day) => {
                     router.push(`/workout/${day.dateString}`);
-                }}
+                })}
             />
 
             <View style={styles.overviewContainer}>
                 <Text style={styles.overviewTitle}>Overview</Text>
-                <Text style={styles.overviewStat}>Days trained: {Object.keys(markedDates).length}</Text>
+                <Text style={styles.overviewStat}>
+                    Days trained: {Object.keys(markedDates).length}
+                </Text>
             </View>
 
-            <Button
-                title="go to exercise list" onPress={() => router.push("/exercise")}
-            />
+            <View style={{ padding: 20 }}>
+                <Button 
+                    title="Go to exercise list" 
+                    color="#6366f1" 
+                    onPress={debouncePress(() => router.push("/exercise"))}
+                />
+            </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, backgroundColor: '#ffffff', paddingTop: 10 },
-    centerContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#ffffff' },
-    loadingText: { marginTop: 10, fontSize: 16, color: '#666' },
-    overviewContainer: { padding: 20, marginTop: 20 },
-    overviewTitle: { fontSize: 20, fontWeight: 'bold', marginBottom: 10 },
-    overviewStat: { fontSize: 16, color: '#444' }
+    container: { 
+        flex: 1, 
+        backgroundColor: '#1C1C1E', // Matches the calendar to eliminate borders
+        paddingTop: 30 
+    },
+    centerContainer: { 
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: '#1C1C1E' 
+    },
+    overviewContainer: { 
+        padding: 20, 
+        marginTop: 20,
+        backgroundColor: '#2C2C2E', // Slightly lighter gray card for contrast
+        borderRadius: 12,
+        marginHorizontal: 20,
+    },
+    overviewTitle: { 
+        fontSize: 20, 
+        fontWeight: 'bold', 
+        marginBottom: 10,
+        color: '#FFFFFF' 
+    },
+    overviewStat: { 
+        fontSize: 16, 
+        color: '#D1D5DB' // Soft gray text
+    }
 });

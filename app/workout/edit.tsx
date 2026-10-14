@@ -93,7 +93,7 @@ export default function EditWorkoutScreen() {
   };
 
   if (isFetching) {
-    return <ActivityIndicator size="large" color="#4f46e5" style={{ flex: 1 }} />;
+    return <ActivityIndicator size="large" color="#6366f1" style={{ flex: 1 }} />;
   }
 
   return (
@@ -105,6 +105,8 @@ export default function EditWorkoutScreen() {
       <TextInput
         style={styles.input}
         value={workoutName}
+        placeholder="Place your workout name"
+        placeholderTextColor="#9CA3AF"
         onChangeText={setWorkoutName}
       />
 
@@ -112,26 +114,28 @@ export default function EditWorkoutScreen() {
         <Button title="Add Exercise" onPress={() => setIsModalVisible(true)} />
       </View>
 
-      <FlatList
-        data={loggedSets}
-        keyExtractor={(_, index) => index.toString()}
-        renderItem={({ item, index }) => (
-          <View style={styles.setRow}>
-            <Text style={styles.setText}>
-              Set {index + 1} (Ex. ID: {item.exerciseId})
-            </Text>
-            <Text style={styles.setText}>
-              {item.reps} reps @ {item.weight} kg
-            </Text>
-          </View>
-        )}
-      />
+            <FlatList 
+                data={loggedSets}
+                keyExtractor={(_, index) => index.toString()}
+                renderItem={({ item, index }) => {
+
+                    const exercise = availableExercises.find(ex => ex.id === item.exerciseId);
+                    const exerciseName = exercise ? exercise.name : 'Unknown Exercise';
+
+                    return (
+                    <View style={styles.setRow}>
+                        <Text style={styles.setText}>{exerciseName} </Text>
+                        <Text style={styles.setText}>Set {index + 1}: {item.reps} reps @ {item.weight} kg</Text>
+                    </View>
+                    );
+                }}
+            />
 
       <View style={styles.footer}>
         {isUpdating ? (
             <ActivityIndicator size="large" color="#f59e0b" />
         ) : (
-            <Button title="Update Workout" color="#f59e0b" onPress={handleUpdate} />
+            <Button title="Update Workout" color="#f59e0b" onPress={handleUpdate} disabled={!workoutName.trim()} />
         )}
       </View>
 
@@ -174,7 +178,8 @@ export default function EditWorkoutScreen() {
                     <TextInput 
                         style={styles.weightInput}
                         keyboardType="numeric"
-                        placeholder="60.5"
+                        placeholder="Insert weight used"
+                        placeholderTextColor="#9CA3AF"
                         value={weight}
                         onChangeText={setWeight}
                     />
@@ -192,36 +197,46 @@ export default function EditWorkoutScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: "#fff" },
-  header: { fontSize: 24, fontWeight: "bold", marginBottom: 20 },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 12,
-    borderRadius: 8,
-    fontSize: 16,
-  },
-  buttonSpacing: { marginTop: 20, marginBottom: 20 },
-  setRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    padding: 15,
-    backgroundColor: "#f3f4f6",
-    marginTop: 10,
-    borderRadius: 8,
-  },
-  setText: { fontSize: 16 },
-  footer: { marginTop: "auto", paddingBottom: 30 },
-  
-  // Modal Styles appended here
-  modalContainer: { flex: 1, padding: 30, backgroundColor: '#fff', paddingTop: 50 },
-  modalHeader: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center' },
-  emptyText: { textAlign: 'center', color: '#666', marginBottom: 20 },
-  exerciseListItem: { padding: 15, borderBottomWidth: 1, borderBottomColor: '#eee' },
-  exerciseListText: { fontSize: 18 },
-  label: { fontSize: 18, fontWeight: '600', marginTop: 20, marginBottom: 10, textAlign: 'center' },
-  repControl: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 20 },
-  repText: { fontSize: 24, marginHorizontal: 30 },
-  weightInput: { borderWidth: 1, borderColor: '#ccc', padding: 15, borderRadius: 8, fontSize: 20, textAlign: 'center', marginBottom: 40 },
-  modalActionButtons: { gap: 15 }
+    container: { flex: 1, padding: 20, backgroundColor: '#1C1C1E' },
+    header: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, color: '#FFFFFF' },
+    input: { 
+        borderWidth: 1, 
+        borderColor: '#374151', 
+        padding: 12, 
+        borderRadius: 8, 
+        fontSize: 16, 
+        color: '#FFFFFF', 
+        backgroundColor: '#2C2C2E' 
+    },
+    buttonSpacing: { marginTop: 20, marginBottom: 20 },
+    setRow: { 
+        padding: 15, 
+        backgroundColor: '#2C2C2E', 
+        marginTop: 10, 
+        borderRadius: 8 
+    },
+    setText: { fontSize: 16, color: '#D1D5DB' },
+    footer: { marginTop: 'auto', paddingBottom: 30 },
+    
+    // Modal Styles
+    modalContainer: { flex: 1, padding: 30, backgroundColor: '#1C1C1E', paddingTop: 50 },
+    modalHeader: { fontSize: 24, fontWeight: 'bold', marginBottom: 20, textAlign: 'center', color: '#FFFFFF' },
+    emptyText: { textAlign: 'center', color: '#9CA3AF', marginBottom: 20 },
+    exerciseListItem: { padding: 15, borderBottomWidth: 1, borderBottomColor: '#374151' },
+    exerciseListText: { fontSize: 18, color: '#FFFFFF' },
+    label: { fontSize: 18, fontWeight: '600', marginTop: 20, marginBottom: 10, textAlign: 'center', color: '#FFFFFF' },
+    repControl: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 20 },
+    repText: { fontSize: 24, marginHorizontal: 30, color: '#FFFFFF' },
+    weightInput: { 
+        borderWidth: 1, 
+        borderColor: '#374151', 
+        padding: 15, 
+        borderRadius: 8, 
+        fontSize: 20, 
+        textAlign: 'center', 
+        marginBottom: 40, 
+        color: '#FFFFFF',
+        backgroundColor: '#2C2C2E'
+    },
+    modalActionButtons: { gap: 15 }
 });
