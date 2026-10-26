@@ -15,29 +15,44 @@ export function useWorkoutDates() {
 
   useFocusEffect(
     useCallback(() => {
-      async function fetchDates() {
+      let isMounted = true;
+
+      // 600ms deferral to allow native screen transition animation to complete
+      const timer = setTimeout(async () => {
         try {
           // 1. Query SQLite: Select ONLY the date column from the workouts table
           const result = await db
             .select({ date: workouts.date })
             .from(workouts);
 
+          if (!isMounted) return;
+
           // 2. Transform the array into the dictionary object React Native Calendar needs
           const formattedDates: MarkedDates = {};
           result.forEach((row) => {
-            formattedDates[row.date] = { marked: true, dotColor: '#6366f1', selectedColor: '#6366f1' };
+            formattedDates[row.date] = { marked: true, dotColor: '#06b6d4', selectedColor: '#06b6d4' };
           });
 
-          // 3. Update state
-          setMarkedDates(formattedDates);
+          // 3. Prevent heavy calendar re-render if database records haven't changed
+          setMarkedDates((prev) => {
+            if (JSON.stringify(prev) === JSON.stringify(formattedDates)) {
+              return prev;
+            }
+            return formattedDates;
+          });
         } catch (error) {
           console.error("Failed to fetch workout dates:", error);
         } finally {
-          setIsLoading(false); // Tell the UI the fetch is complete
+          if (isMounted) {
+            setIsLoading(false);
+          }
         }
-      }
+      }, 600);
 
-      fetchDates();
+      return () => {
+        isMounted = false;
+        clearTimeout(timer);
+      };
     }, []),
   );
 
